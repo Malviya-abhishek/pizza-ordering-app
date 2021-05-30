@@ -1,2 +1,3 @@
 yarn add [package name]
 yarn [script name]
+git push -u origin master
