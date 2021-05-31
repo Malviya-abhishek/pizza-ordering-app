@@ -1,3 +1,5 @@
 yarn add [package name]
 yarn [script name]
 git push -u origin master
+To start dev server :- yarn dev
+TO start laravel mix:- yarn watch
