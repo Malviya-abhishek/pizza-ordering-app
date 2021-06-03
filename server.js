@@ -4,7 +4,6 @@ const app = express();
 const ejs = require('ejs');
 const expressLayout = require('express-ejs-layouts');
 const path = require('path');
-const initRoute = require('./routes/web');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const flash = require('express-flash');
@@ -15,7 +14,7 @@ const Emitter = require('events');
 const PORT = process.env.PORT || 3000;
 
 // database connection
-const uri = 'mongodb://localhost/pizzadb'
+const uri = process.env.MONGO_CONNECTION_URL
 mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: true });
 const connection = mongoose.connection;
 // checking for connection
@@ -78,7 +77,10 @@ app.set('views', path.join(__dirname, '/resources/views'));
 app.set('view engine', 'ejs');
 
 //Routes
-initRoute(app);
+require('./routes/web')(app);
+app.use((req, res)=>{
+  return res.status(404).render('errors/404')
+})
 
 
 const server = app.listen(PORT, () => {
