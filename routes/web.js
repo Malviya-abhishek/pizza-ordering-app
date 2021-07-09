@@ -35,9 +35,7 @@ function initRoute(app) {
   app.get('/admin/orders', admin, adminOrderController().index);
   app.post('/admin/order/status', admin, StatusController().update);
 }
-
 module.exports = initRoute;
-
 
 // app.get('', (req, res) => {
 //   res.render('home')

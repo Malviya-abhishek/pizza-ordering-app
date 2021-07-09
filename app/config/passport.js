@@ -3,28 +3,28 @@ const User = require('../model/user');
 const bcrypt = require('bcrypt');
 
 function init(passport) {
-    // login logic
+  // login logic
   passport.use(new LocalStrategy({ usernameField: 'email' }, async (email, password, done) => {
-    
-    // check email exist
-    const user = await User.findOne({ email: email });
 
-    if (!user) {
-      return done(null, false, { message: 'No user with this email' });
-    }
+      // check email exist
+      const user = await User.findOne({ email: email });
 
-    bcrypt.compare(password, user.password)
-      .then(match => {
-        if (match) {
-          return done(null, user, { message: 'Logged in successfully' });
-        }
-        return done(null, false, { message: 'Wrong username or password' });
-      })
-      .catch(err => {
-        return done(null, false, { message: 'Something went wrong' });
-      });
+      if (!user) {
+        return done(null, false, { message: 'No user with this email' });
+      }
 
-  }));
+      bcrypt.compare(password, user.password)
+        .then(match => {
+          if (match) {
+            return done(null, user, { message: 'Logged in successfully' });
+          }
+          return done(null, false, { message: 'Wrong username or password' });
+        })
+        .catch(err => {
+          return done(null, false, { message: 'Something went wrong' });
+        });
+
+    }));
 
   // store some identity in the session
   passport.serializeUser((user, done) => {
